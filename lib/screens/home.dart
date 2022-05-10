@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youtube/custom_search_delegate.dart';
 import 'package:youtube/screens/library.dart';
 import 'package:youtube/screens/subscriptions.dart';
 import 'package:youtube/screens/trending.dart';
@@ -14,47 +15,41 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   var _indexValue = 0;
-
-  List<Widget> screens = [
-    const Start(),
-    const Trending(),
-    const Subscriptions(),
-    const Library()
-  ];
+  String _result = '';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
 
+    List<Widget> screens = [
+      Start(search: _result,),
+      const Trending(),
+      const Subscriptions(),
+      const Library()
+    ];
+
+    return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(
-          color: Colors.grey
-        ),
+        iconTheme: const IconThemeData(color: Colors.grey),
         title: Image.asset(
-            'assets/images/youtube.png',
+          'assets/images/youtube.png',
           width: 98,
           height: 22,
         ),
         actions: [
           IconButton(
-              onPressed: () {
-                print('ação: video');
-              },
-              icon: const Icon(Icons.videocam)),
-          IconButton(
-              onPressed: () {
-                print('ação: busca');
-              },
-              icon: const Icon(Icons.search)),
-          IconButton(
-              onPressed: () {
-                print('ação: conta');
-              },
-              icon: const Icon(Icons.account_circle)),
+              icon: const Icon(Icons.search),
+              onPressed: () async {
+                String? res = await showSearch(
+                    context: context, delegate: CustomSearchDelegate());
+                setState(() {
+                  _result = res!;
+                });
+              }),
         ],
       ),
-      body: Center(
+      body: Container(
+        padding: const EdgeInsets.all(16),
         child: screens[_indexValue],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -68,25 +63,21 @@ class _HomeState extends State<Home> {
         fixedColor: Colors.red,
         items: const [
           BottomNavigationBarItem(
-            //  backgroundColor: Colors.red,
-            label: 'Início',
-            icon: Icon(Icons.home)
-          ),
+              //  backgroundColor: Colors.red,
+              label: 'Início',
+              icon: Icon(Icons.home)),
           BottomNavigationBarItem(
               // backgroundColor: Colors.orange,
               label: 'Em alta',
-              icon: Icon(Icons.whatshot)
-          ),
+              icon: Icon(Icons.whatshot)),
           BottomNavigationBarItem(
               // backgroundColor: Colors.blue,
               label: 'Inscrições',
-              icon: Icon(Icons.subscriptions)
-          ),
+              icon: Icon(Icons.subscriptions)),
           BottomNavigationBarItem(
               // backgroundColor: Colors.green,
               label: 'Biblioteca',
-              icon: Icon(Icons.folder)
-          ),
+              icon: Icon(Icons.folder)),
         ],
       ),
     );
