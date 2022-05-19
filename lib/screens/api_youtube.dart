@@ -1,21 +1,21 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:youtube/models/video.dart';
-const YOUTUBE_API_KEY = 'AIzaSyDu8rXtn8I2se4VoTBGB4MKGehcLZy0vTQ';
-const CHANNEL_ID = 'UCVHFbqXqoYvEWM1Ddxl0QDg';
 const CHANNEL_URL = 'https://www.googleapis.com/youtube/v3/';
 
 class ApiYoutube {
 
   Future<List<Video>> search(String search) async {
+    await dotenv.load();
     Uri uri = Uri.parse(
       CHANNEL_URL + 'search' +
         '?part=snippet' +
         '&type=video' +
         '&maxResults=20' +
         '&order=date' +
-        '&key=$YOUTUBE_API_KEY' +
-        '&channelId=$CHANNEL_ID' +
+        '&key=${dotenv.env['YOUTUBE_API_KEY']}' +
+        '&channelId=${dotenv.env['CHANNEL_ID']}' +
         '&q=$search'
     );
 
