@@ -4,7 +4,8 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+7th exercise-app with the objective of consuming the youtube api, showing videos in a look alike interface and allowing search.
+
 
 A few resources to get you started if this is your first Flutter project:
 
